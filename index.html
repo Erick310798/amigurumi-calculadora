@@ -4,146 +4,208 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Calculadora de Precios Amigurumi</title>
-<link rel="stylesheet" href="nocturne.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap">
 <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- ========================================== -->
-  <!-- PANTALLA 1: INICIO                         -->
-  <!-- ========================================== -->
-  <div id="start-screen" style="display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: var(--space-4);">
-    <div class="card elev-lg" style="max-width: 400px; width: 100%; text-align: center; padding: var(--space-6);">
-      <div style="margin-bottom: var(--space-4);">
-        <i class="ph ph-yarn" style="font-size: 56px; color: var(--color-accent-300);"></i>
-      </div>
-      <h2 style="font-family: var(--font-heading); margin-bottom: var(--space-2); font-size: 24px;">Amigurumi Calc</h2>
-      <p style="color: var(--color-neutral-300); font-size: 14px; margin-bottom: var(--space-6);">
-        Calcula el precio justo de tus tejidos y asegura tus ganancias.
-      </p>
-      
-      <div style="display: flex; flex-direction: column; gap: var(--space-3);">
-        <button id="btnEnterApp" class="btn btn-primary btn-block" type="button" style="padding: var(--space-3); font-size: 16px;">
-          <i class="ph ph-calculator"></i> Entrar a la Calculadora
+  <!-- Símbolos reutilizables -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="spark" viewBox="0 0 24 24"><path d="M12 1c1 6 5 10 11 11-6 1-10 5-11 11-1-6-5-10-11-11 6-1 10-5 11-11z" fill="currentColor"/></symbol>
+    </defs>
+  </svg>
+
+  <div class="wrap">
+
+    <!-- BARRA SUPERIOR -->
+    <header class="card site-nav">
+      <div class="logo"><span class="logo-mark"><img src="Logo.jpg" alt="" width="1124" height="944"></span><span>Calculadora de Amigurumi</span></div>
+    </header>
+
+    <!-- ========================================== -->
+    <!-- PANTALLA 1: INICIO                         -->
+    <!-- ========================================== -->
+    <div id="start-screen" class="screen" style="display: flex;">
+      <section class="card hero">
+        <svg class="spark spark-a float" width="32" height="32" aria-hidden="true"><use href="#spark"/></svg>
+        <svg class="spark spark-b" width="20" height="20" aria-hidden="true"><use href="#spark"/></svg>
+
+        <div class="appicon hero-icon"><img src="Logo.jpg" alt="Logo de Ganchillo Estelar" width="1124" height="944"></div>
+        <h1>Ponle precio justo a cada amigurumi</h1>
+        <p class="hero-text">Calcula el precio justo de tus tejidos y asegura tus ganancias.</p>
+
+        <div class="hero-actions">
+          <button id="btnEnterApp" class="btn btn-primary" type="button">
+            <i class="ph ph-calculator"></i> Entrar a la Calculadora
+          </button>
+          <button id="btnGoToCurrency" class="btn btn-secondary" type="button">
+            <i class="ph ph-coins"></i> <span>Cambiar Moneda (<span id="startCurrencyLabel">$</span>)</span>
+          </button>
+        </div>
+
+        <ul class="pills pills-center">
+          <li class="pill pill-mint">Materiales</li>
+          <li class="pill pill-butter">Horas de tejido</li>
+          <li class="pill pill-lilac">Tu ganancia</li>
+        </ul>
+      </section>
+
+      <!-- TARJETA DE DESCARGA: solo en la pantalla de inicio -->
+      <section id="descarga" class="download solo-web">
+        <svg class="spark spark-a float" width="36" height="36" aria-hidden="true"><use href="#spark"/></svg>
+
+        <div class="download-grid">
+          <div class="download-main">
+            <div class="appicon"><img src="Logo.jpg" alt="" width="1124" height="944"></div>
+            <div class="download-info">
+              <span class="eyebrow">Descarga directa</span>
+              <h2>Calculadora de Amigurumi</h2>
+              <div class="pills">
+                <span class="pill pill-card">Versión 1.1</span>
+                <span class="pill pill-card">Archivo APK</span>
+                <span class="pill pill-card">Android</span>
+              </div>
+              <p class="download-text">Instálala en tu celular y calcula el precio de tu próximo amigurumi en un minuto.</p>
+              <div class="download-actions">
+                <!-- Enlaces de descarga: cámbialos aquí cuando subas una nueva versión -->
+                <a class="btn btn-primary" target="_blank" rel="noopener"
+                   href="https://drive.google.com/file/d/17Mv1LpkFfy0myhtUVv30fvKIoSJ5c_2Y/view?usp=drive_link">
+                  <i class="ph ph-download-simple"></i> Descargar APK
+                </a>
+                <a target="_blank" rel="noopener"
+                   href="https://drive.google.com/file/d/17Mv1LpkFfy0myhtUVv30fvKIoSJ5c_2Y/view?usp=drive_link">Ver en Google Drive</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="card install-card">
+            <h3>Cómo instalarla</h3>
+            <div class="step"><span class="step-n">1</span><p>Toca <b>Descargar APK</b> y guarda el archivo en tu celular.</p></div>
+            <div class="step"><span class="step-n">2</span><p>Si Android lo pide, permite instalar apps desde esta fuente.</p></div>
+            <div class="step"><span class="step-n">3</span><p>Abre el archivo descargado y toca <b>Instalar</b>.</p></div>
+            <p class="install-note">Si Drive muestra un aviso de que no puede revisar virus, elige <b>Descargar de todos modos</b>.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- PANTALLA 2: CAMBIAR MONEDA                 -->
+    <!-- ========================================== -->
+    <div id="currency-screen" class="screen" style="display: none;">
+      <section class="card currency-card">
+        <h2>Configura tu Moneda</h2>
+        <div class="field">
+          <label for="currencySelect">Moneda Local</label>
+          <select class="input" id="currencySelect">
+            <option value="$">$ (USD / MXN / COP / CLP / ARS)</option>
+            <option value="Mex$">Mex$ (Peso Mexicano)</option>
+            <option value="€">€ (Euro)</option>
+            <option value="S/.">S/. (Sol Peruano)</option>
+            <option value="Q">Q (Quetzal Guatemalteco)</option>
+            <option value="L">L (Lempira Hondureño)</option>
+            <option value="Bs">Bs (Boliviano)</option>
+          </select>
+        </div>
+        <button id="btnSaveCurrency" class="btn btn-primary btn-block" type="button">
+          Guardar y Volver <i class="ph ph-check"></i>
         </button>
-        <button id="btnGoToCurrency" class="btn btn-secondary btn-block" type="button">
-          <i class="ph ph-coins"></i> Cambiar Moneda (<span id="startCurrencyLabel">$</span>)
+      </section>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- PANTALLA 3: CALCULADORA                    -->
+    <!-- ========================================== -->
+    <div id="app-view" class="app-view" style="display: none;">
+      <div class="app-head">
+        <h1>Calculadora de Precios Amigurumi</h1>
+        <!-- Botón para volver al inicio -->
+        <button id="btnBackToStart" class="btn btn-secondary btn-icon" type="button" aria-label="Volver al inicio">
+          <i class="ph ph-house"></i>
         </button>
       </div>
-    </div>
-  </div>
 
-  <!-- ========================================== -->
-  <!-- PANTALLA 2: CAMBIAR MONEDA                 -->
-  <!-- ========================================== -->
-  <div id="currency-screen" style="display: none; justify-content: center; align-items: center; min-height: 100vh; padding: var(--space-4);">
-    <div class="card elev-sm" style="max-width: 400px; width: 100%; text-align: center; padding: var(--space-6);">
-      <h2 style="font-family: var(--font-heading); margin-bottom: var(--space-3); font-size: 22px;">Configura tu Moneda</h2>
-      <div class="field" style="text-align: left; margin-bottom: var(--space-6);">
-        <label>Moneda Local</label>
-        <select class="input" id="currencySelect" style="width: 100%; cursor: pointer;">
-          <option value="$">$ (USD / MXN / COP / CLP / ARS)</option>
-          <option value="Mex$">Mex$ (Peso Mexicano)</option>
-          <option value="€">€ (Euro)</option>
-          <option value="S/.">S/. (Sol Peruano)</option>
-          <option value="Q">Q (Quetzal Guatemalteco)</option>
-          <option value="L">L (Lempira Hondureño)</option>
-          <option value="Bs">Bs (Boliviano)</option>
-        </select>
-      </div>
-      <button id="btnSaveCurrency" class="btn btn-primary btn-block" type="button">
-        Guardar y Volver <i class="ph ph-check"></i>
-      </button>
-    </div>
-  </div>
+      <div class="layout-grid">
+        <div class="col-form">
 
-  <!-- ========================================== -->
-  <!-- PANTALLA 3: CALCULADORA ORIGINAL           -->
-  <!-- ========================================== -->
-  <div id="app-view" class="app-view" style="display: none;">
-    <div class="nav" style="margin-bottom: var(--space-8); background: transparent; border: none; padding: 0; display: flex; justify-content: space-between; align-items: center;">
-      <div class="nav-brand" style="font-family: var(--font-heading); font-size: 20px;">
-        <i class="ph ph-yarn" style="font-size: 22px; color: var(--color-accent-300);"></i>
-        Calculadora de Precios Amigurumi
-      </div>
-      <!-- Botón para volver al inicio -->
-      <button id="btnBackToStart" class="btn btn-secondary btn-icon" aria-label="Volver al inicio" style="border-radius: 50%;">
-        <i class="ph ph-house"></i>
-      </button>
-    </div>
-
-    <!-- TODO TU LAYOUT ORIGINAL INTACTO ABAJO -->
-    <div class="layout-grid">
-      <div class="col-form">
-
-        <div class="card elev-sm">
-          <div class="card-kicker">Proyecto</div>
-          <div class="field" style="margin-top: var(--space-3);">
-            <label>Nombre de la pieza</label>
-            <input class="input" id="pieceName" type="text" placeholder="ej. Figura Creada">
-          </div>
-        </div>
-
-        <div class="card elev-sm">
-          <div class="card-kicker">Mano de obra</div>
-          <div class="two-col">
-            <div class="field">
-              <label>Horas trabajadas</label>
-              <input class="input" id="hours" type="number" min="0" step="0.5" placeholder="ej. 6">
-            </div>
-            <div class="field">
-              <label id="rateLabel">Tarifa por hora ($)</label>
-              <input class="input" id="rate" type="number" min="0" step="0.5" placeholder="ej. 4">
+          <div class="card">
+            <div class="card-kicker">Proyecto</div>
+            <div class="field field-top">
+              <label for="pieceName">Nombre de la pieza</label>
+              <input class="input" id="pieceName" type="text" placeholder="ej. Figura Creada">
             </div>
           </div>
-        </div>
 
-        <div class="card elev-sm">
-          <div class="card-row">
-            <div class="card-kicker" style="margin: 0;">Insumos y materiales</div>
-            <button class="btn btn-primary" id="addMaterial"><i class="ph ph-plus"></i> Agregar material</button>
-          </div>
-          <div id="materialsList" class="materials-list"></div>
-          <div id="noMaterials" class="no-materials" style="display:none;">Sin materiales aún — agrega el primero.</div>
-        </div>
-
-        <div class="card elev-sm">
-          <div class="card-kicker">Configuración de negocio</div>
-          <div class="sliders">
-            <div>
-              <div class="slider-label"><span>% Gastos indirectos (CIF)</span><span class="slider-val" id="cifVal">10%</span></div>
-              <input class="amg-range" id="cif" type="range" min="0" max="50" value="10">
-            </div>
-            <div>
-              <div class="slider-label"><span>% Margen de ganancia</span><span class="slider-val" id="marginVal">30%</span></div>
-              <input class="amg-range" id="margin" type="range" min="0" max="100" value="30">
+          <div class="card">
+            <div class="card-kicker">Mano de obra</div>
+            <div class="two-col">
+              <div class="field">
+                <label for="hours">Horas trabajadas</label>
+                <input class="input" id="hours" type="number" inputmode="decimal" min="0" step="0.5" placeholder="ej. 6">
+              </div>
+              <div class="field">
+                <label for="rate" id="rateLabel">Tarifa por hora ($)</label>
+                <input class="input" id="rate" type="number" inputmode="decimal" min="0" step="0.5" placeholder="ej. 4">
+              </div>
             </div>
           </div>
+
+          <div class="card">
+            <div class="card-row">
+              <div class="card-kicker">Insumos y materiales</div>
+              <button class="btn btn-primary" id="addMaterial" type="button"><i class="ph ph-plus"></i> Agregar material</button>
+            </div>
+            <div id="materialsList" class="materials-list"></div>
+            <div id="noMaterials" class="no-materials" style="display:none;">Sin materiales aún: agrega el primero.</div>
+          </div>
+
+          <div class="card">
+            <div class="card-kicker">Configuración de negocio</div>
+            <div class="sliders">
+              <div>
+                <div class="slider-label"><label for="cif">% Gastos indirectos (CIF)</label><span class="slider-val" id="cifVal">10%</span></div>
+                <input class="amg-range" id="cif" type="range" min="0" max="50" value="10">
+              </div>
+              <div>
+                <div class="slider-label"><label for="margin">% Margen de ganancia</label><span class="slider-val" id="marginVal">30%</span></div>
+                <input class="amg-range" id="margin" type="range" min="0" max="100" value="30">
+              </div>
+            </div>
+          </div>
+
         </div>
 
-      </div>
+        <div class="col-results">
 
-      <div class="col-results">
+          <div class="card price-card" aria-live="polite">
+            <div class="card-kicker">Precio de venta sugerido</div>
+            <div class="price-big" id="priceOut">$0.00</div>
+            <div class="card-meta" id="priceMeta"></div>
+          </div>
 
-        <div class="card elev-lg price-card">
-          <div class="card-kicker" style="color: var(--color-accent-300);">Precio de venta sugerido</div>
-          <div class="price-big" id="priceOut">$0.00</div>
-          <div class="card-meta" id="priceMeta"></div>
+          <div class="card">
+            <div class="card-kicker">Desglose de costos</div>
+            <div id="breakdown" class="breakdown"></div>
+          </div>
+
+          <div class="actions-row">
+            <button class="btn btn-primary btn-block" id="saveBtn" type="button"><i class="ph ph-file-pdf"></i> Guardar cotización (PDF)</button>
+            <button class="btn btn-secondary btn-block" id="resetBtn" type="button"><i class="ph ph-arrow-counter-clockwise"></i> Reiniciar campos</button>
+          </div>
+
         </div>
-
-        <div class="card elev-sm">
-          <div class="card-kicker">Desglose de costos</div>
-          <div id="breakdown" class="breakdown"></div>
-        </div>
-
-        <div class="actions-row">
-          <button class="btn btn-primary btn-block" id="saveBtn"><i class="ph ph-file-pdf"></i> Guardar cotización (PDF)</button>
-          <button class="btn btn-secondary btn-block" id="resetBtn"><i class="ph ph-arrow-counter-clockwise"></i> Reiniciar campos</button>
-        </div>
-
       </div>
     </div>
+
+    <footer class="site-footer">
+      <span class="logo-mark"><img src="Logo.jpg" alt="" width="1124" height="944"></span>
+      <p>Hecho a mano, con cariño</p>
+    </footer>
+
   </div>
 
   <div id="print-view" class="print-view" style="display:none;">
@@ -152,7 +214,7 @@
         <div class="print-title" id="printPieceName"></div>
         <div class="print-date" id="printDate"></div>
       </div>
-      <div class="print-brand">Amigurumi Calc</div>
+      <div class="print-brand">Calculadora de Amigurumi</div>
     </div>
 
     <table class="table print-table">
@@ -168,6 +230,10 @@
     </div>
   </div>
 
+<script>
+  // Dentro de la app de Android se ocultan los botones y la tarjeta de descarga
+  if (typeof AndroidApp !== "undefined") document.documentElement.classList.add("en-app");
+</script>
 <script src="script.js"></script>
 </body>
 </html>

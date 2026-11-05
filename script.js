@@ -1,5 +1,4 @@
 // Recuperamos los datos guardados en la memoria del teléfono, o usamos los valores por defecto
-const savedRate = localStorage.getItem("amiCalc_rate") || "";
 const savedCif = localStorage.getItem("amiCalc_cif") || "10";
 const savedMargin = localStorage.getItem("amiCalc_margin") || "30";
 
@@ -9,7 +8,7 @@ let appCurrency = localStorage.getItem("amiCalc_currency") || "$";
 let state = {
   pieceName: "", 
   hours: "", 
-  rate: savedRate, 
+  rate: "",
   cif: parseInt(savedCif, 10), 
   margin: parseInt(savedMargin, 10), 
   nextId: 4,
@@ -153,13 +152,13 @@ function bindStaticInputs() {
   document.getElementById("pieceName").addEventListener("input", (e) => { state.pieceName = e.target.value; updateTotals(); });
   document.getElementById("hours").addEventListener("input", (e) => { state.hours = e.target.value; updateTotals(); });
   
-  // MEJORA 2: Al escribir en estos campos, se guardan automáticamente en el teléfono
+  // La tarifa no se guarda: el campo sale vacío cada vez que se abre la app
   document.getElementById("rate").addEventListener("input", (e) => { 
-    state.rate = e.target.value; 
-    localStorage.setItem("amiCalc_rate", state.rate);
-    updateTotals(); 
+    state.rate = e.target.value;
+    updateTotals();
   });
-  document.getElementById("cif").addEventListener("input", (e) => { 
+  // MEJORA 2: Al mover estos controles, se guardan automáticamente en el teléfono
+  document.getElementById("cif").addEventListener("input", (e) => {
     state.cif = parseInt(e.target.value, 10) || 0; 
     localStorage.setItem("amiCalc_cif", state.cif);
     updateTotals(); 
@@ -175,12 +174,12 @@ function bindStaticInputs() {
     renderMaterialsList();
   });
 
-  // El botón reiniciar ahora limpia el proyecto, pero RESPETA tus tarifas guardadas
+  // El botón reiniciar limpia el proyecto y la tarifa, pero RESPETA los porcentajes guardados
   document.getElementById("resetBtn").addEventListener("click", () => {
     state = {
       pieceName: "", 
       hours: "", 
-      rate: state.rate, 
+      rate: "",
       cif: state.cif, 
       margin: state.margin, 
       nextId: 4,
@@ -192,6 +191,7 @@ function bindStaticInputs() {
     };
     document.getElementById("pieceName").value = "";
     document.getElementById("hours").value = "";
+    document.getElementById("rate").value = "";
     renderMaterialsList();
   });
 
