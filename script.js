@@ -21,6 +21,15 @@ let state = {
 
 const fmt = (n) => (Math.round(n * 100) / 100).toFixed(2);
 
+// Acepta decimales con punto o coma: "1,50" se convierte en "1.50" y se quita lo que no sea número
+function limpiarDecimal(input) {
+  let valor = input.value.replace(/,/g, ".").replace(/[^0-9.]/g, "");
+  const punto = valor.indexOf(".");
+  if (punto !== -1) valor = valor.slice(0, punto + 1) + valor.slice(punto + 1).replace(/\./g, "");
+  if (valor !== input.value) input.value = valor;
+  return valor;
+}
+
 function compute() {
   const materialsTotal = state.materials.reduce((sum, m) => sum + (parseFloat(m.unitCost) || 0) * (parseFloat(m.qty) || 0), 0);
   const laborTotal = (parseFloat(state.hours) || 0) * (parseFloat(state.rate) || 0);
@@ -91,11 +100,11 @@ function renderMaterialRow(m) {
     </div>
     <div class="field">
       <label>Costo unit. (${appCurrency})</label>
-      <input class="input cost-input" type="number" min="0" step="0.01" value="${m.unitCost}">
+      <input class="input cost-input" type="text" inputmode="decimal" autocomplete="off" value="${m.unitCost}">
     </div>
     <div class="field">
       <label>Cantidad</label>
-      <input class="input qty-input" type="number" min="0" step="0.1" value="${m.qty}">
+      <input class="input qty-input" type="text" inputmode="decimal" autocomplete="off" value="${m.qty}">
     </div>
     <button class="btn btn-icon btn-ghost del-btn" aria-label="Eliminar" style="color: var(--color-neutral-300);"><i class="ph ph-trash"></i></button>
   `;
@@ -125,8 +134,8 @@ function renderMaterialRow(m) {
       updateTotals(); 
     }
   });
-  costInput.addEventListener("input", (e) => { m.unitCost = e.target.value; updateTotals(); });
-  qtyInput.addEventListener("input", (e) => { m.qty = e.target.value; updateTotals(); });
+  costInput.addEventListener("input", (e) => { m.unitCost = limpiarDecimal(e.target); updateTotals(); });
+  qtyInput.addEventListener("input", (e) => { m.qty = limpiarDecimal(e.target); updateTotals(); });
 
   delBtn.addEventListener("click", () => {
     state.materials = state.materials.filter((x) => x.id !== m.id);
@@ -150,11 +159,11 @@ function bindStaticInputs() {
   document.getElementById("margin").value = state.margin;
 
   document.getElementById("pieceName").addEventListener("input", (e) => { state.pieceName = e.target.value; updateTotals(); });
-  document.getElementById("hours").addEventListener("input", (e) => { state.hours = e.target.value; updateTotals(); });
+  document.getElementById("hours").addEventListener("input", (e) => { state.hours = limpiarDecimal(e.target); updateTotals(); });
   
   // La tarifa no se guarda: el campo sale vacío cada vez que se abre la app
   document.getElementById("rate").addEventListener("input", (e) => { 
-    state.rate = e.target.value;
+    state.rate = limpiarDecimal(e.target);
     updateTotals();
   });
   // MEJORA 2: Al mover estos controles, se guardan automáticamente en el teléfono
@@ -212,14 +221,16 @@ function preparePrintAndSave() {
     const tr = document.createElement("tr");
     const finalName = m.type === "Otro" ? (m.name || "Otro insumo") : m.type;
     // SE CAMBIÓ "$" POR appCurrency
-    tr.innerHTML = `<td>${finalName}</td><td>${m.type}</td><td>${m.qty || 0}</td><td>${appCurrency}${fmt(m.unitCost || 0)}</td><td>${appCurrency}${fmt((m.unitCost || 0) * (m.qty || 0))}</td>`;
+    const costo = parseFloat(m.unitCost) || 0;
+    const cantidad = parseFloat(m.qty) || 0;
+    tr.innerHTML = `<td>${finalName}</td><td>${m.type}</td><td>${cantidad}</td><td>${appCurrency}${fmt(costo)}</td><td>${appCurrency}${fmt(costo * cantidad)}</td>`;
     body.appendChild(tr);
   });
 
   // SE CAMBIÓ "$" POR appCurrency EN TODO EL RESUMEN DE IMPRESIÓN
   document.getElementById("printSummary").innerHTML = `
     <div class="print-summary-row"><span>Materiales directos</span><span>${appCurrency}${fmt(materialsTotal)}</span></div>
-    <div class="print-summary-row"><span>Mano de obra (${state.hours || 0}h × ${appCurrency}${state.rate || 0})</span><span>${appCurrency}${fmt(laborTotal)}</span></div>
+    <div class="print-summary-row"><span>Mano de obra (${parseFloat(state.hours) || 0}h × ${appCurrency}${parseFloat(state.rate) || 0})</span><span>${appCurrency}${fmt(laborTotal)}</span></div>
     <div class="print-summary-row"><span>Gastos indirectos (${state.cif}%)</span><span>${appCurrency}${fmt(cifAmount)}</span></div>
     <div class="print-summary-row"><span>Margen de ganancia (${state.margin}%)</span><span>${appCurrency}${fmt(marginAmount)}</span></div>
   `;
